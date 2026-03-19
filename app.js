@@ -163,16 +163,6 @@
             item.addEventListener('click', () => openLightbox(idx));
             galleryGrid.appendChild(item);
         });
-
-        // Staggered reveal
-        const items = $$('.gallery-item', galleryGrid);
-        items.forEach((item, i) => {
-            setTimeout(() => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-                item.style.transition = `opacity 0.6s ${cssEase}, transform 0.6s ${cssEase}`;
-            }, i * 60);
-        });
     }
 
     const cssEase = 'cubic-bezier(0.16, 1, 0.3, 1)';
@@ -322,22 +312,6 @@
                     });
                 },
             });
-        });
-
-        // Gallery items scroll animation
-        ScrollTrigger.create({
-            trigger: '.gallery-masonry',
-            start: 'top 85%',
-            once: true,
-            onEnter: () => {
-                $$('.gallery-item').forEach((item, i) => {
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                        item.style.transition = `opacity 0.6s ${cssEase}, transform 0.6s ${cssEase}`;
-                    }, i * 60);
-                });
-            },
         });
 
         // Gradient orbs parallax
