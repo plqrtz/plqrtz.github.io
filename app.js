@@ -205,6 +205,7 @@
                 galleryGrid.appendChild(item);
             });
             galleryGrid.style.opacity = '1';
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
         });
     }
 
