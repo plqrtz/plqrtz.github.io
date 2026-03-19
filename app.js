@@ -21,7 +21,7 @@
     };
 
     // Flatten all works
-    const allWorks = [...artworks.full, ...artworks.characters, ...artworks.sketches];
+    const allWorks = [...artworks.full, ...artworks.sketches, ...artworks.characters];
 
     // ── DOM References ──────────────────────
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -161,14 +161,37 @@
         }));
     }
 
+    // Reorder array so column-fill order looks like row order
+    function reorderForColumns(arr, cols) {
+        const rows = Math.ceil(arr.length / cols);
+        const reordered = [];
+        for (let col = 0; col < cols; col++) {
+            for (let row = 0; row < rows; row++) {
+                const idx = row * cols + col;
+                if (idx < arr.length) reordered.push(arr[idx]);
+            }
+        }
+        return reordered;
+    }
+
+    function getColumnCount() {
+        if (window.innerWidth <= 540) return 1;
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
+    }
+
     function buildGallery(filter) {
         filteredWorks = filter === 'all' ? allWorks : (artworks[filter] || []);
         galleryGrid.style.opacity = '0';
         galleryGrid.innerHTML = '';
 
+        const cols = getColumnCount();
+        const displayOrder = reorderForColumns(filteredWorks, cols);
+
         preloadImages(filteredWorks).then(() => {
             galleryGrid.innerHTML = '';
-            filteredWorks.forEach((work, idx) => {
+            displayOrder.forEach((work) => {
+                const realIdx = filteredWorks.indexOf(work);
                 const item = document.createElement('div');
                 item.className = 'gallery-item';
                 item.setAttribute('data-category', work.category);
@@ -178,7 +201,7 @@
                         <span class="gallery-item-title">${work.title}</span>
                     </div>
                 `;
-                item.addEventListener('click', () => openLightbox(idx));
+                item.addEventListener('click', () => openLightbox(realIdx));
                 galleryGrid.appendChild(item);
             });
             galleryGrid.style.opacity = '1';
