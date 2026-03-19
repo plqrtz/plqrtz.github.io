@@ -146,22 +146,42 @@
     });
 
     // ── Gallery ─────────────────────────────
+    // Preload all images on startup so columns never reflow
+    const imageCache = new Map();
+    function preloadImages(works) {
+        return Promise.all(works.map(work => {
+            if (imageCache.has(work.src)) return imageCache.get(work.src);
+            const p = new Promise(resolve => {
+                const img = new Image();
+                img.onload = img.onerror = () => resolve();
+                img.src = work.src;
+            });
+            imageCache.set(work.src, p);
+            return p;
+        }));
+    }
+
     function buildGallery(filter) {
         filteredWorks = filter === 'all' ? allWorks : (artworks[filter] || []);
+        galleryGrid.style.opacity = '0';
         galleryGrid.innerHTML = '';
 
-        filteredWorks.forEach((work, idx) => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.setAttribute('data-category', work.category);
-            item.innerHTML = `
-                <img src="${work.src}" alt="${work.title}" loading="lazy" decoding="async">
-                <div class="gallery-item-overlay">
-                    <span class="gallery-item-title">${work.title}</span>
-                </div>
-            `;
-            item.addEventListener('click', () => openLightbox(idx));
-            galleryGrid.appendChild(item);
+        preloadImages(filteredWorks).then(() => {
+            galleryGrid.innerHTML = '';
+            filteredWorks.forEach((work, idx) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.setAttribute('data-category', work.category);
+                item.innerHTML = `
+                    <img src="${work.src}" alt="${work.title}" decoding="sync">
+                    <div class="gallery-item-overlay">
+                        <span class="gallery-item-title">${work.title}</span>
+                    </div>
+                `;
+                item.addEventListener('click', () => openLightbox(idx));
+                galleryGrid.appendChild(item);
+            });
+            galleryGrid.style.opacity = '1';
         });
     }
 
@@ -177,8 +197,8 @@
         });
     });
 
-    // Build initial gallery
-    buildGallery('all');
+    // Preload all images, then build gallery
+    preloadImages(allWorks).then(() => buildGallery('all'));
 
     // ── Lightbox ────────────────────────────
     function openLightbox(index) {

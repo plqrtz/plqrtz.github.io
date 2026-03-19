@@ -726,6 +726,7 @@ button {
 .gallery-masonry {
     columns: 3;
     column-gap: 16px;
+    transition: opacity 0.3s ease;
 }
 
 .gallery-item {
