@@ -737,6 +737,7 @@ button {
     cursor: none;
     opacity: 0;
     transform: translateY(30px);
+    contain: inline-size;
 }
 
 @media (pointer: coarse) {
@@ -745,8 +746,10 @@ button {
 
 .gallery-item img {
     width: 100%;
+    height: auto;
     display: block;
     transition: transform 0.8s var(--ease);
+    content-visibility: auto;
 }
 
 .gallery-item::after {

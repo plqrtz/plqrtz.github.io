@@ -4,17 +4,17 @@
     // ── Image Data ──────────────────────────
     const artworks = {
         full: Array.from({ length: 10 }, (_, i) => ({
-            src: `assets/images/full/full_${String(i + 1).padStart(2, '0')}.png`,
+            src: `assets/images/full/full_${String(i + 1).padStart(2, '0')}.jpg`,
             title: `Полноценка ${i + 1}`,
             category: 'full',
         })),
         characters: Array.from({ length: 7 }, (_, i) => ({
-            src: `assets/images/characters/characters_${String(i + 1).padStart(2, '0')}.png`,
+            src: `assets/images/characters/characters_${String(i + 1).padStart(2, '0')}.jpg`,
             title: `Персонаж ${i + 1}`,
             category: 'characters',
         })),
         sketches: Array.from({ length: 10 }, (_, i) => ({
-            src: `assets/images/sketches/sketches_${String(i + 1).padStart(2, '0')}.png`,
+            src: `assets/images/sketches/sketches_${String(i + 1).padStart(2, '0')}.jpg`,
             title: `Скетч ${i + 1}`,
             category: 'sketches',
         })),
@@ -155,7 +155,7 @@
             item.className = 'gallery-item';
             item.setAttribute('data-category', work.category);
             item.innerHTML = `
-                <img src="${work.src}" alt="${work.title}" loading="lazy">
+                <img src="${work.src}" alt="${work.title}" loading="lazy" decoding="async">
                 <div class="gallery-item-overlay">
                     <span class="gallery-item-title">${work.title}</span>
                 </div>
