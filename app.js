@@ -3,29 +3,25 @@
 
     // ── Image Data ──────────────────────────
     const artworks = {
-        full: [
-            { src: 'assets/images/full/full_01.jpg', title: 'Иллюстрация 1', category: 'full' },
-            { src: 'assets/images/full/full_02.jpg', title: 'Иллюстрация 2', category: 'full' },
-        ],
-        characters: Array.from({ length: 18 }, (_, i) => ({
-            src: `assets/images/characters/characters_${String(i + 1).padStart(2, '0')}.jpg`,
+        full: Array.from({ length: 10 }, (_, i) => ({
+            src: `assets/images/full/full_${String(i + 1).padStart(2, '0')}.png`,
+            title: `Полноценка ${i + 1}`,
+            category: 'full',
+        })),
+        characters: Array.from({ length: 7 }, (_, i) => ({
+            src: `assets/images/characters/characters_${String(i + 1).padStart(2, '0')}.png`,
             title: `Персонаж ${i + 1}`,
             category: 'characters',
         })),
-        comics: Array.from({ length: 31 }, (_, i) => ({
-            src: `assets/images/comics/comics_${String(i + 1).padStart(2, '0')}.jpg`,
-            title: `Комикс ${i + 1}`,
-            category: 'comics',
+        sketches: Array.from({ length: 10 }, (_, i) => ({
+            src: `assets/images/sketches/sketches_${String(i + 1).padStart(2, '0')}.png`,
+            title: `Скетч ${i + 1}`,
+            category: 'sketches',
         })),
-        sketches: [
-            { src: 'assets/images/sketches/sketches_01.jpg', title: 'Скетч 1', category: 'sketches' },
-            { src: 'assets/images/sketches/sketches_02.jpg', title: 'Скетч 2', category: 'sketches' },
-            { src: 'assets/images/sketches/sketches_03.jpg', title: 'Скетч 3', category: 'sketches' },
-        ],
     };
 
     // Flatten all works
-    const allWorks = [...artworks.full, ...artworks.characters, ...artworks.comics, ...artworks.sketches];
+    const allWorks = [...artworks.full, ...artworks.characters, ...artworks.sketches];
 
     // ── DOM References ──────────────────────
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
