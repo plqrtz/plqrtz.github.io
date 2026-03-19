@@ -3,7 +3,7 @@
 
     // ── Image Data ──────────────────────────
     const artworks = {
-        full: Array.from({ length: 10 }, (_, i) => ({
+        full: Array.from({ length: 12 }, (_, i) => ({
             src: `assets/images/full/full_${String(i + 1).padStart(2, '0')}.jpg`,
             title: `Полноценка ${i + 1}`,
             category: 'full',
